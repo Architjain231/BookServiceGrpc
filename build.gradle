@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'nebula.lint' version '17.7.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://maven.repository.redhat.com/ga" }
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+  //  implementation 'io.quarkus:quarkus-openshift'
+  //  implementation 'io.quarkus:quarkus-grpc'
+ //   implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'com.google.protobuf:protobuf-java'
+    implementation 'io.grpc:grpc-api'
+    implementation 'io.grpc:grpc-protobuf'
+    implementation 'io.grpc:grpc-stub'
+    implementation 'io.quarkus:quarkus-grpc-stubs'
+  //  implementation "io.quarkus:quarkus-hibernate-orm-panache"
+  //  implementation "io.quarkus:quarkus-jdbc-postgresql"
+ //   implementation "io.quarkus:quarkus-jdbc-h2"
+ //   testImplementation 'io.quarkus:quarkus-junit5'
+   // testImplementation 'io.quarkus:quarkus-junit5-mockito'
+}
+
+group 'com.brightly'
+version '1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+allprojects {
+    apply plugin: 'nebula.lint'
+    gradleLint {
+        rules = ['all-dependency']
+        excludedRules = ['transitive-duplicate-dependency-class']
+    } // add as many rules here as you'd like
+}
+
+
+allprojects {
+    apply plugin: 'nebula.lint'
+    gradleLint {
+        rules = ['all-dependency']
+        excludedRules = ['transitive-duplicate-dependency-class', 'unused-exclude-by-dep',
+                         'undeclared-dependency', 'duplicate-dependency-class',' unused-dependency']
+    } // add as many rules here as you'd like
+}

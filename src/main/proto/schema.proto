@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.brightly";
+option java_outer_classname = "PurchaseOrderGrpcProto";
+
+package com.brightly.proto;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+
+message Book {
+    int32 bookId = 1;
+    string bookName=2;
+    string authorName=3;
+    int32 pages=4;
+}
+
+
+
+service BookService {
+    rpc createBook (Book) returns (Book) {}
+    rpc deleteBookById (google.protobuf.Int32Value) returns (Book) {}
+    rpc deleteBooks (google.protobuf.Empty) returns (ListBookResponse) {}
+    rpc updateBook (UpdateBookMessage) returns (Book) {}
+    rpc getBookById (google.protobuf.Int32Value) returns (Book) {}
+    rpc getAllBooks (google.protobuf.Empty) returns (ListBookResponse) {}
+}
+
+message UpdateBookMessage {
+    google.protobuf.Int32Value book_id = 1;
+    Book book = 2;
+}
+
+message ListBookResponse {
+    repeated Book book = 1;
+}
